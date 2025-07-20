@@ -1,204 +1,73 @@
-import React, { useState } from 'react';
-import lastone from '../images/lastone.jpeg'; // Import local image
+import React from 'react';
+import ContactForm from './ContactForm';
+import lastone from '../images/lastone.jpeg';
 
-// This tells TypeScript that the 'emailjs' object exists on the global scope
-declare const emailjs: any;
+const MailIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+const PhoneIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+    </svg>
+);
+const LocationIcon = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+);
+
+const ContactInfoItem: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode }> = ({ icon, title, children }) => (
+    <div className="flex flex-col items-center text-center">
+        <div className="flex-shrink-0 w-16 h-16 bg-[#6A356B]/50 text-[#D1A7D5] rounded-full flex items-center justify-center mb-4">
+            {icon}
+        </div>
+        <div>
+            <h4 className="text-lg font-semibold text-white">{title}</h4>
+            <div className="text-gray-400">{children}</div>
+        </div>
+    </div>
+);
+
 
 const Consultation: React.FC = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    service: '',
-    message: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    const serviceID = 'service_a22ikcq';
-    const templateID = 'template_al0vwwe';
-    const publicKey = 'DDTB9scm_WkNThd84';
-
-    emailjs.send(serviceID, templateID, formData, publicKey)
-      .then((response: any) => {
-        console.log('SUCCESS!', response.status, response.text);
-        setSubmitStatus('success');
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          service: '',
-          message: ''
-        });
-      })
-      .catch((err: any) => {
-        console.error('FAILED...', err);
-        setSubmitStatus('error');
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
-  };
 
   return (
-    <section id="consultation" className="py-20 px-4 bg-slate-900">
-      <div className="container mx-auto grid lg:grid-cols-2 gap-16 items-start">
-        <div className="lg:pr-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-            Schedule a consultation
-          </h2>
-          <p className="text-lg text-gray-300 mb-8">
-            Enjoy tax peace of mind by scheduling an appointment with one of our dedicated professionals.
+    <section id="contact" className="py-20 bg-[#141424]" style={{scrollMarginTop: '80px'}}>
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white">Get In <span className="text-[#D1A7D5]">Touch</span></h2>
+            <p className="text-lg text-gray-400 mt-4 max-w-2xl mx-auto">We're here to help. Reach out to us with any questions or to schedule your consultation.
           </p>
-          <img
-            src={lastone}
-            alt="Consultation"
-            className="rounded-2xl shadow-lg w-full h-auto object-cover"
-          />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
-                Name <span className="text-gray-400">(required)</span>
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                placeholder="First Name"
-                required
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-              />
-            </div>
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2 invisible sm:visible">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                placeholder="Last Name"
-                required
-                value={formData.lastName}
-                onChange={handleChange}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-              />
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+            <ContactInfoItem icon={<LocationIcon className="w-8 h-8" />} title="Our Office">
+                <p>154 Corlett Drive<br />Bramley, Johannesburg</p>
+            </ContactInfoItem>
+            <ContactInfoItem icon={<MailIcon className="w-8 h-8" />} title="Email Us">
+                <a href="mailto:contact@tknaccounting.com" className="hover:text-[#D1A7D5] transition-colors">info@tknaccounting.co.za</a>
+            </ContactInfoItem>
+                <ContactInfoItem icon={<PhoneIcon className="w-8 h-8" />} title="Call Us">
+                <a href="tel:+1234567890" className="hover:text-[#D1A7D5] transition-colors">+27 64 538 3188<br /> +27 82 924 5345</a>
+            </ContactInfoItem>
+        </div>
+
+        <div id="schedule" className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center bg-[#1A1A2E] p-8 sm:p-12 rounded-2xl shadow-lg" style={{scrollMarginTop: '80px'}}>
+          <div>
+            <h2 className="text-3xl font-bold mb-4 text-white">Schedule a Consultation</h2>
+            <p className="text-gray-400 text-lg mb-8">
+              Enjoy tax peace of mind by scheduling an appointment with one of our dedicated professionals.
+            </p>
+            <div className="rounded-2xl overflow-hidden shadow-lg">
+                <img src={lastone} />
             </div>
           </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-              Email <span className="text-gray-400">(required)</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="you@example.com"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-            />
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-              Phone
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              id="phone"
-              placeholder="(123) 456-7890"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-            />
-          </div>
-          <div>
-            <label htmlFor="service" className="block text-sm font-medium text-gray-300 mb-2">
-              Service needed <span className="text-gray-400">(required)</span>
-            </label>
-            <select
-              name="service"
-              id="service"
-              required
-              value={formData.service}
-              onChange={handleChange}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition appearance-none"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
-                backgroundPosition: 'right 0.75rem center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: '1.5em 1.5em'
-              }}
-            >
-              <option value="" disabled>
-                Select an option
-              </option>
-              <option value="personal">Personal Tax Services</option>
-              <option value="business">Business Tax Services</option>
-              <option value="audits">Tax Audits & Disputes</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-              Message <span className="text-gray-400">(required)</span>
-            </label>
-            <textarea
-              name="message"
-              id="message"
-              rows={4}
-              required
-              placeholder="How can we help you?"
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-            ></textarea>
-          </div>
-          <div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-stone-200 hover:bg-stone-300 text-slate-900 font-bold py-3 px-8 rounded-lg transition-colors duration-300 disabled:bg-slate-700 disabled:text-gray-400 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'SENDING...' : 'SEND'}
-            </button>
-          </div>
-          {submitStatus === 'success' && (
-            <p className="text-green-400 text-center">
-              Thank you for your message! We will get back to you shortly.
-            </p>
-          )}
-          {submitStatus === 'error' && (
-            <p className="text-red-400 text-center">
-              Oops! Something went wrong. Please try again later.
-            </p>
-          )}
-        </form>
+          
+          <ContactForm />
+        </div>
       </div>
     </section>
   );

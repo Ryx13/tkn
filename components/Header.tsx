@@ -1,75 +1,42 @@
-
-import React, { useState, useRef } from 'react';
+import React from 'react';
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const href = e.currentTarget.getAttribute('href');
-    if (!href || !href.startsWith('#')) return;
-
-    const targetElement = document.querySelector(href);
-
-    if (targetElement) {
-      const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 0;
-      const elementPosition = targetElement.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
-    setIsMenuOpen(false);
   };
 
+  const navLinkClass = "text-gray-300 hover:text-[#D1A7D5] transition-colors cursor-pointer";
+
   return (
-    <header ref={headerRef} className="bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
-      <nav className="container mx-auto px-6 py-6 flex justify-between items-center relative">
-        <a href="#home" onClick={handleLinkClick} className="text-xl md:text-2xl font-bold text-white">
-          <span className="hidden md:inline">Yardman Projects & Development</span>
-          <span className="md:hidden">YPDC</span>
-        </a>
-        
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-8 items-center">
-          <a href="#services" onClick={handleLinkClick} className="text-gray-300 hover:text-white transition-colors duration-300">Services</a>
-          <a href="#about" onClick={handleLinkClick} className="text-gray-300 hover:text-white transition-colors duration-300">About Us</a>
-          <a href="#contact" onClick={handleLinkClick} className="text-gray-300 hover:text-white transition-colors duration-300">Contact</a>
-          <a href="#consultation" onClick={handleLinkClick} className="bg-purple-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
-            Schedule Consultation
-          </a>
+    <header className="bg-[#1A1A2E]/80 backdrop-blur-sm sticky top-0 z-50">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div 
+            className="text-2xl font-bold text-white cursor-pointer"
+            onClick={() => handleScroll('home')}
+        >
+          TKN <span className="text-[#D1A7D5]">Accounting</span>
         </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none z-20">
-            {isMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            )}
+        <nav className="hidden md:flex items-center space-x-6">
+           <button 
+            onClick={() => handleScroll('home')} 
+            className={navLinkClass}
+          >
+            Home
           </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <div className={`md:hidden absolute top-0 left-0 w-full h-screen bg-slate-900 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out`}>
-          <div className="flex flex-col items-center justify-center h-full space-y-8">
-            <a href="#services" onClick={handleLinkClick} className="text-2xl text-gray-300 hover:text-white transition-colors duration-300">Services</a>
-            <a href="#about" onClick={handleLinkClick} className="text-2xl text-gray-300 hover:text-white transition-colors duration-300">About Us</a>
-            <a href="#contact" onClick={handleLinkClick} className="text-2xl text-gray-300 hover:text-white transition-colors duration-300">Contact</a>
-            <a href="#consultation" onClick={handleLinkClick} className="bg-purple-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 mt-4 text-lg">
-              Schedule Consultation
-            </a>
-          </div>
-        </div>
-      </nav>
+          <button onClick={() => handleScroll('services')} className={navLinkClass}>Services</button>
+          <button onClick={() => handleScroll('about')} className={navLinkClass}>About</button>
+          <button onClick={() => handleScroll('contact')} className={navLinkClass}>Contact</button>
+          <button 
+            onClick={() => handleScroll('schedule')} 
+            className="bg-[#6A356B] hover:bg-[#572c59] text-white font-bold py-2 px-5 rounded-md transition-all duration-300 transform hover:scale-105 shadow-md"
+          >
+            Schedule a Consultation
+          </button>
+        </nav>
+      </div>
     </header>
   );
 };

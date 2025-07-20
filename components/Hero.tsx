@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
           className="mt-6 max-w-2xl text-lg md:text-xl text-gray-200"
           style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.6)' }}
         >
-          Yardman Projects & Development provides comprehensive tax services, accounting solutions,
+          TKN Accountiong provides comprehensive tax services, accounting solutions,
           and financial guidance to individuals and businesses.
         </p>
       </div>
