@@ -39,7 +39,7 @@ const Services: React.FC = () => {
     const servicesData = [
             {
             imageSrc: col1,
-            title: "hollePersonal Tax Services",
+            title: "Personal Tax Services",
             description: "Comprehensive individual tax planning. Return preparation and submission. Bespoke tax structuring to maximize your refunds and minimize your tax liability.",
             items: ["Tax Return Preparation", "Tax Planning", "Audit Support", "Provisional Tax Estimates"]
             },
