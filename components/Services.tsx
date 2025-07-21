@@ -59,7 +59,7 @@ const Services: React.FC = () => {
             imageSrc: 'https://picsum.photos/seed/estate/400/300',
             title: 'Deceased Estate Services',
             description: 'Compassionate and expert handling of deceased estate matters, ensuring compliance and peace of mind during difficult times.',
-            items: ['Final Tax Return Preparation', 'Estate & Trust Tax Returns', 'Clearance Certificate Assistance', 'Guidance for Executors']
+            items: ['Engagement with the Master', 'Preparation, submission and approval of the final Liquidation and Distribution accounts (L&D)','Deceased Estate Compliance (DEC)' ]
         }
     ];
 
